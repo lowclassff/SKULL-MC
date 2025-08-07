@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skull MC | A Modern Minecraft Network</title>
+  <style>
+    /* -------------------- Global & Base Styling -------------------- */
+    /* Resets and base styles for a clean slate */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0d0d0d;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* Import Google Font for a clean look */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+
+
+    a {
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+
+    h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+      color: #e0e0e0;
+    }
+    
+    p.section-subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #b0b0b0;
+        max-width: 600px;
+        margin: -40px auto 60px;
+    }
+
+
+    /* -------------------- Header & Navigation -------------------- */
+    /* Sticky header with a blur effect for a premium feel. */
+    header {
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(13, 13, 13, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      animation: header-fade-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+    }
+
+
+    .logo h1 {
+      font-size: 1.8rem;
+      color: #00ffbf;
+      text-shadow: 0 0 5px rgba(0, 255, 191, 0.5);
+    }
+
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+
+    nav a {
+      font-weight: 500;
+      color: #e0e0e0;
+      position: relative;
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #5865F2;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: width 0.3s ease-in-out;
+    }
+
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+
+    /* -------------------- Hero Section -------------------- */
+    /* Main title section with a dynamic gradient text and call to action button. */
+    .hero {
+      text-align: center;
+      padding: 150px 20px 100px;
+      animation: hero-fade-in 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 800;
+      color: #e0e0e0;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      margin-bottom: 20px;
+    }
+    
+    .hero-title span {
+      background: linear-gradient(90deg, #5865F2, #c736a5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0.8;
+    }
+
+
+    .join-button {
+      display: inline-block;
+      padding: 15px 40px;
+      background: linear-gradient(45deg, #5865F2, #8338ec);
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-size: 1.2rem;
+      box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .join-button:hover {
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+    }
+    
+    /* -------------------- Main Content Sections -------------------- */
+    .section {
+        padding: 80px 0;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    
+    .section.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Card Styling with a "glassmorphism" effect */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+    }
+    
+    .card h3 {
+        font-size: 1.5rem;
+        color: #00ffbf;
+        margin-bottom: 10px;
+    }
+    
+    .card p {
+        color: #b0b0b0;
+    }
+    
+    .team-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+
+    .member-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 3px solid #5865F2;
+      box-shadow: 0 0 10px #5865F2;
+    }
+
+
+    .member-info h4 {
+      font-size: 1.2rem;
+      color: #00ffbf;
+      margin-bottom: 5px;
+    }
+
+
+    .member-info p {
+      font-size: 0.9rem;
+      color: #b0b0b0;
+      text-align: center;
+    }
+    
+    .contact-card {
+        padding: 50px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        text-align: center;
+    }
+
+
+    /* -------------------- Footer -------------------- */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: #111;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 50px;
+    }
+    
+    footer p {
+        color: #888;
+    }
+
+
+    /* -------------------- Animations -------------------- */
+    @keyframes header-fade-in {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes hero-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        header {
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+        }
+        nav ul {
+            gap: 20px;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+        h2 {
+            font-size: 2rem;
+        }
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Skull MC Logo" />
+      <h1>SKULL MC</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <section class="hero">
+    <h1 class="hero-title">Welcome to <br><span>Skull MC</span></h1>
+    <p class="hero-subtitle">The ultimate Minecraft server for a lag-free experience with Survival, Lifesteal, and intense PvP FFA.</p>
+    <a href="https://discord.gg/JpDvqGGGMU" target="_blank" class="join-button">Join Our Discord</a>
+  </section>
+
+
+  <main class="container">
+    <section id="about" class="section">
+      <h2>About Our Server</h2>
+      <p class="section-subtitle">Skull MC is more than just a server—it's a community built for fun, competition, and endless adventure.</p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Lifesteal Gamemode</h3>
+          <p>An intense PvP experience where defeating opponents rewards you with their health.</p>
+        </div>
+        <div class="card">
+          <h3>Survival Gamemode</h3>
+          <p>Classic survival mode, enhanced with custom elements and engaging challenges.</p>
+        </div>
+        <div class="card">
+          <h3>Pvp Ffa</h3>
+          <p>Free-for-all arenas for players to test their skills and compete for glory.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="features" class="section">
+      <h2>Server Features</h2>
+      <p class="section-subtitle">Explore a comprehensive set of unique features to make your gameplay experience unforgettable.</p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Lag Free</h3>
+          <p>Optimized for peak performance, ensuring smooth and uninterrupted gameplay.</p>
+        </div>
+        <div class="card">
+          <h3>100% Safe Server</h3>
+          <p>A secure environment where your progress and data are always protected.</p>
+        </div>
+        <div class="card">
+          <h3>100% Security</h3>
+          <p>Our server has advanced anti-cheat and security measures to prevent cheating.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="custom-features" class="section">
+      <h2>Custom Features</h2>
+      <p class="section-subtitle">Discover a world of unique items and special models to enhance your adventure.</p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Custom Armors</h3>
+          <p>Equip exclusive armor sets with unique abilities and effects.</p>
+        </div>
+        <div class="card">
+          <h3>Mc Models</h3>
+          <p>A collection of custom models for items, weapons, and more.</p>
+        </div>
+        <div class="card">
+          <h3>Custom Weapons</h3>
+          <p>Wield powerful, custom-crafted weapons to dominate in PvP.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="ranks" class="section">
+      <h2>Ranks</h2>
+      <p class="section-subtitle">Exclusive ranks with powerful perks are coming soon to the server!</p>
+      <div class="contact-card">
+        <h3>COMING SOON</h3>
+        <p>Stay tuned on our Discord for the latest updates on server ranks.</p>
+        <br>
+        <a href="https://discord.gg/JpDvqGGGMU" target="_blank" class="join-button">Join Discord for Updates</a>
+      </div>
+    </section>
+
+
+    <section id="team" class="section">
+      <h2>Our Team</h2>
+      <p class="section-subtitle">Meet the passionate and dedicated individuals who power the Skull MC community.</p>
+      <div class="card-grid">
+        <div class="card team-card">
+          <img src="owner.png" alt="Skulling Yt" class="member-photo">
+          <div class="member-info">
+            <h4>SKULLING YT</h4>
+            <p>Owner</p>
+          </div>
+        </div>
+
+
+        <div class="card team-card">
+          <img src="lord.png" alt="WarriorXwiN" class="member-photo">
+          <div class="member-info">
+            <h4>WARRIORXWIN</h4>
+            <p>Lord</p>
+          </div>
+        </div>
+
+
+        <div class="card team-card">
+          <img src="developer.png" alt="OG × ICONIC" class="member-photo">
+          <div class="member-info">
+            <h4>OG × ICONIC</h4>
+            <p>Developer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="contact" class="section">
+      <h2>Contact & Server Details</h2>
+      <div class="contact-card">
+        <h3>Server IP: <a href="#">play.skullmc.com</a></h3>
+        <p><strong>Status:</strong> 24/7</p>
+        <p><strong>Version:</strong> All Minecraft Versions Supported</p>
+        <p><strong>Custom IP:</strong> Your custom IP here</p>
+        <br>
+        <h3>Contact Support</h3>
+        <p><strong>Discord:</strong> <a href="https://discord.gg/JpDvqGGGMU" target="_blank">Join Our Discord</a></p>
+        <p><strong>Gmail:</strong> <a href="mailto:godp6326@gmail.com">godp6326@gmail.com</a></p>
+      </div>
+    </section>
+  </main>
+
+
+  <footer>
+    <p>&copy; 2025 Skull MC. All rights reserved.</p>
+  </footer>
+  
+  <script>
+    // JavaScript for scroll-triggered animations
+    const sections = document.querySelectorAll('.section');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Stop observing once animated
+            }
+        });
+    }, observerOptions);
+    
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+  </script>
+
+
+</body>
+</html>
+
